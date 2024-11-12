@@ -24,18 +24,19 @@ public class SecurityConfig {
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
+
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
 
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
         MvcRequestMatcher.Builder mvc = new MvcRequestMatcher.Builder(introspector);
         return http.authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(mvc.pattern("/secure/**")).hasRole("USER")
+                        .requestMatchers(mvc.pattern("/secure/**")).hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(mvc.pattern("/admin/**")).hasRole("ADMIN")
                         .requestMatchers(mvc.pattern("/")).permitAll()
                         .requestMatchers(mvc.pattern("/js/**")).permitAll()
                         .requestMatchers(mvc.pattern("/css/**")).permitAll()
@@ -50,8 +51,7 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception.accessDeniedPage("/permission-denied"))
                 .logout(logout -> logout.permitAll())
                 .build();
-        }
-
+    }
 
 
 //    @Bean
