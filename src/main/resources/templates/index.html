@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Secure Home Page</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
@@ -10,6 +11,8 @@
 <p>This is an unsecured page, but you can access the secured pages after
     authenticating.</p>
 <p>Navigate to the secured pages by clicking
-    <a th:href="@{/secure}">here</a>.</p>
+    <a th:href="@{/secure/books}">here</a>.</p>
+<p>Register by clicking
+    <a th:href="@{/register}">here</a>.</p>
 </body>
 </html>

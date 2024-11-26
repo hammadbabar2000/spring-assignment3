@@ -3,15 +3,11 @@ package ca.sheridancollege.babarha.lec92_customformlogin.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -37,12 +33,20 @@ public class SecurityConfig {
         return http.authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(mvc.pattern("/secure/**")).hasAnyRole("USER", "ADMIN")
                         .requestMatchers(mvc.pattern("/admin/**")).hasRole("ADMIN")
+
                         .requestMatchers(mvc.pattern("/")).permitAll()
                         .requestMatchers(mvc.pattern("/js/**")).permitAll()
                         .requestMatchers(mvc.pattern("/css/**")).permitAll()
                         .requestMatchers(mvc.pattern("/images/**")).permitAll()
                         .requestMatchers(mvc.pattern("/permission-denied")).permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/register")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/register")).permitAll()
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/secure/books")).hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/secure/insertBook")).hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/secure/deleteBook/**")).hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/secure/editBook/**")).hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/secure/getBookByTitle")).hasAnyRole("USER", "ADMIN")
                         .requestMatchers(mvc.pattern("/**")).denyAll()
                 )
                 .csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).disable())
@@ -53,10 +57,4 @@ public class SecurityConfig {
                 .build();
     }
 
-
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        PasswordEncoder encoder = NoOpPasswordEncoder.getInstance();
-//        return encoder;
-//    }
 }

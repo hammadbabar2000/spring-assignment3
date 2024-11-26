@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:fragment="header">
+    <meta charset="UTF-8">
+    <title>Books</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav>
+    <ul class="nav-list">
+        <li><a th:href="@{/}">Home</a></li>
+        <li><a th:href="@{/register}">Register</a></li>
+        <li>
+            <form method="post" th:action="@{/logout}">
+                <button type="submit">Logout</button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+
+<div class="container">
+    <h1>Book List</h1>
+
+    <br><hr><br>
+
+    <form method="post" th:action="@{/secure/insertBook}"
+          th:object="${book}">
+        <input type="hidden" name="id" th:field="*{id}"/>
+        Title: <input type="text" name="title" th:field="*{title}" /><br>
+        Author: <input type="text" name="author" th:field="*{author}" /><br>
+        Publisher: <input type="text" name="publisher" th:field="*{publisher}" /><br>
+        Price: <input type="number" name="price" th:field="*{price}" /><br>
+        Status:
+        <select name="status" th:field="*{status}">
+            <option value="not started">Not Started</option>
+            <option value="reading">Reading</option>
+            <option value="finished">Finished</option>
+        </select>
+        <br>
+        <input type="submit" value="Go!" />
+    </form>
+</div>
+
+<div class="container">
+    <h1>Books</h1>
+
+
+    <br><hr><br>
+
+    <table th:if="${bookList != null && !bookList.isEmpty()}">
+        <tr th:each="b : ${bookList}">
+            <td th:text="${b.title}"></td>
+            <td th:text="${b.author}"></td>
+            <td th:text="${b.publisher}"></td>
+            <td th:text="${#numbers.formatCurrency(b.price)}"></td>
+            <td th:text="${b.status}"></td>
+            <td><a th:href="@{/secure/editBook/__${b.id}__}">Edit</a></td>
+            <td><a th:href="@{/secure/deleteBook/__${b.id}__}">Delete</a></td>
+        </tr>
+    </table>
+    <br><hr><br>
+    <h3>Filter By Title</h3>
+    <form method="post" action="" th:action="@{/secure/getBookByTitle}"
+          th:object="${book}">
+        Title: <input type="text" name="title" th:field="*{title}" /><br>
+        <div class="button-container">
+            <input type="submit" value="Go!" />
+            <input type="button" class="all-button" value="All" onclick="location.href='/secure/books'" />
+        </div>
+    </form>
+</div>
+</body>
+</html>

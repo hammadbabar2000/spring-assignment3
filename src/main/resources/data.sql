@@ -27,3 +27,18 @@ VALUES (2, 2);
 
 INSERT INTO user_role (userId, roleId)
 VALUES (3, 3);
+
+INSERT INTO BOOK (TITLE, AUTHOR, PUBLISHER, PRICE, STATUS)
+VALUES ('The Way Of Kings', 'Brandon Sanderson', 'Tor Books', 10, 'Finished');
+
+INSERT INTO BOOK (TITLE, AUTHOR, PUBLISHER, PRICE, STATUS)
+VALUES ('The Final Empire', 'Brandon Sanderson', 'Tor Books', 10, 'Finished');
+
+INSERT INTO BOOK (TITLE, AUTHOR, PUBLISHER, PRICE, STATUS)
+VALUES ('The Hero of Ages', 'Brandon Sanderson', 'Tor Books', 10, 'Finished');
+
+INSERT INTO BOOK (TITLE, AUTHOR, PUBLISHER, PRICE, STATUS)
+VALUES ('The Well of Ascension', 'Brandon Sanderson', 'Tor Books', 10, 'Finished');
+
+INSERT INTO BOOK (TITLE, AUTHOR, PUBLISHER, PRICE, STATUS)
+VALUES ('Oathbringer', 'Brandon Sanderson', 'Tor Books', 10, 'Finished');
